@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import {loadBucket} from "./redux/modules/bucketSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
 
-function App() {
+const App = () => {
+  const bucket_list = useSelector(state => state.bucket.list);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // 서버에서 데이터를 불러오는 createAsyncThunk 호출
+    dispatch(loadBucket());
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {bucket_list.map((item, index) => (
+        <div key={index}>
+          {item.text}
+        </div>
+      ))}
+    </>
+
   );
 }
 
